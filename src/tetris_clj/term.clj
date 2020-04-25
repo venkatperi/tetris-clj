@@ -11,7 +11,7 @@
     (= ch 1) (t/put-string term "#" x y)))
 
 (defn render-piece [piece x y]
-  ; force evaluation of map
+  ; force evaluation of map. doall isn't cutting it... :-(
   (println
     (map-indexed
       (fn [dy row]

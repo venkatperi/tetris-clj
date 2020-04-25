@@ -8,11 +8,11 @@
 (defn start-game []
   (t/start)
   (with-local-vars
-    [getch nil
-     frame 0
-     current-piece s/j
-     current-x 10
-     current-y 1]
+    [getch nil                                              ; input from user
+     frame 0                                                ; frame counter
+     current-piece s/j                                      ; the current piece
+     current-x 10                                           ; piece x position
+     current-y 1]                                           ; piece y position
     (while (not (= @getch \q))
       (t/cls)
       (t/render-piece @current-piece @current-x @current-y)
