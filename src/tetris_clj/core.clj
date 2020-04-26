@@ -44,7 +44,7 @@
     :else (->> coll (take n) (take (- m n)))))
 
 (defn zero-mat [w h]
-  (vec (repeat h (vec (repeat w 0)))))
+  (->> (repeat w 0) vec (repeat h) vec))
 
 (defn grow-mat
   [piece x y bw bh]
