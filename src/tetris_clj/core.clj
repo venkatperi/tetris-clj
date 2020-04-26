@@ -12,8 +12,8 @@
     (cond
       (< x 0) true
       (< y 0) true
-      (>= (+ x w) bw) true
-      (>= (+ y h) bh) true
+      (> (+ x w) bw) true
+      (> (+ y h) bh) true
       (every?
         empty?
         (keep-indexed
@@ -42,7 +42,21 @@
         #(interferes board piece x %)
         (map (partial - bh) (range h bh))))))
 
-(def board-width 40)
+
+(defn full-row?
+  [row]
+  (every? #(> % 0) row))
+
+(defn clear-lines
+  [board]
+  (println board)
+  (let [bw (s/width board)
+        bh (s/height board)
+        cleared (filter #(-> % full-row? not) board)
+        h (s/height cleared)]
+    (concat (s/zero-mat bw (- bh h)) cleared)))
+
+(def board-width 10)
 (def board-height 20)
 
 (defn start-game
@@ -62,7 +76,7 @@
       (if (= 0 (mod frame 10))
         (if (interferes @board @current-piece @current-x (inc @current-y))
           (do
-            (var-set board (write-piece-to-board @board @current-piece @current-x @current-y))
+            (var-set board (-> @board (write-piece-to-board @current-piece @current-x @current-y) clear-lines))
             (var-set current-y 0)
             (var-set current-x (/ (- board-width 2) 2))
             (var-set current-piece (s/get-random-piece)))
