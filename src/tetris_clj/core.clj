@@ -85,7 +85,7 @@
         (cond
           (= :right getch) (var-set current-x (if (interferes @board @current-piece (inc @current-x) @current-y) @current-x (inc @current-x)))
           (= :left getch) (var-set current-x (if (interferes @board @current-piece (dec @current-x) @current-y) @current-x (dec @current-x)))
-          (= :down getch) (var-set current-y (drop-piece @board @current-piece @current-x @current-y))
+          (= \  getch) (var-set current-y (drop-piece @board @current-piece @current-x @current-y))
           (= :up getch) (var-set current-piece (s/rotate-90-cc @current-piece)))
         (if (not (= \q getch))
           (recur (inc frame))))))
