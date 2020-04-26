@@ -11,13 +11,14 @@
     (= ch 1) (t/put-string term "#" x y)))
 
 (defn render-piece [piece x y]
-  ; force evaluation of map. doall isn't cutting it... :-(
-  (println
+  (doall
     (map-indexed
       (fn [dy row]
-        (map-indexed
-          (fn [dx pixel]
-            (set-pixel pixel (+ dx x) (+ dy y))) row)) piece)))
+        (doall
+          (map-indexed
+            (fn [dx pixel]
+              (set-pixel pixel (+ dx x) (+ dy y))) row))) piece))
+  (t/move-cursor term 1 1))
 
 (defn start []
   (t/start term))
