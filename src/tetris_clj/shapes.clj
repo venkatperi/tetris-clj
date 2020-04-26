@@ -11,29 +11,33 @@
 (def pieces [i o l j z s t])
 
 (defn get-random-piece []
-  (let [total (count pieces)]
-    (nth pieces (rand-int total) )))
+  (->> pieces count rand-int (nth pieces)))
 
-(defn height [rows]
-  (count rows))
+(defn height [mat]
+  (count mat))
 
-(defn width [rows]
-  (count (first rows)))
+(defn width [mat]
+  (-> mat first count))
 
 (defn transpose [m]
   (apply mapv vector m))
 
 (defn rotate-90-cc [piece]
-  (reverse (transpose piece)))
+  "Rotate piece 90 degrees counter clockwise"
+  (-> piece transpose reverse))
 
 (defn xyth
   [matrix x y]
-  (nth (nth matrix y) x))
+  (-> matrix (nth y) (nth x)))
 
-(defn zero-mat [w h]
-  (->> (repeat w 0) vec (repeat h) vec))
+(defn zero-mat
+  ([w]
+   (->> 0 (repeat w) vec))
+  ([w h]
+   (->> (zero-mat w) (repeat h) vec)))
 
 (defn grow-mat
+  "'grow' matrix `piece` to size bw x bh placing it at (x,y) and zeroing out rest"
   [piece x y bw bh]
   (let [w (width piece)
         h (height piece)]
@@ -42,9 +46,9 @@
       (map
         (fn [row]
           (concat
-            (vec (repeat x 0))
+            (zero-mat x)
             row
-            (vec (repeat (- bw (+ x w)) 0)))) piece)
+            (zero-mat (- bw (+ x w))))) piece)
       (zero-mat bw (- bh (+ y h))))))
 
 (defn add-mat [m1 m2]

@@ -54,7 +54,7 @@
         (if (interferes @board @current-piece @current-x (inc @current-y))
           (do
             (var-set board (write-piece-to-board @board @current-piece @current-x @current-y))
-            (var-set current-y 1)
+            (var-set current-y 0)
             (var-set current-piece (s/get-random-piece)))
           (var-set current-y (inc @current-y))))
 
