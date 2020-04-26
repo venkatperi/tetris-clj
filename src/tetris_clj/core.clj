@@ -49,7 +49,6 @@
 
 (defn clear-lines
   [board]
-  (println board)
   (let [bw (s/width board)
         bh (s/height board)
         cleared (filter #(-> % full-row? not) board)
