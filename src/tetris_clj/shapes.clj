@@ -68,3 +68,7 @@
   (map #(->> % (drop x) (take w)) (->> matrix (drop y) (take h)))
   )
 
+(defn every2d?
+  [f matrix]
+  (every? true? (map #(every? f %) matrix)))
+

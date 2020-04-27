@@ -8,7 +8,7 @@
 
 (defn set-pixel [ch x y]
   (cond
-    (= ch 1) (t/put-string term "#" x y)))
+    (= ch 1) (t/put-string term "█" x y)))
 
 (defn render-piece [piece x y]
   (doall

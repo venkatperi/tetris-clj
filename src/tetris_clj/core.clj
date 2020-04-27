@@ -14,17 +14,9 @@
       (< y 0) true
       (> (+ x w) bw) true
       (> (+ y h) bh) true
-      (every?
-        empty?
-        (keep-indexed
-          (fn
-            [dy row]
-            (keep-indexed
-              (fn
-                [dx pixel]
-                (if (> (+ pixel (s/xyth board (+ x dx) (+ y dy))) 1) pixel))
-              row))
-          piece)) false
+      (let [sub (s/submatrix board w h x y)
+            sum (s/add-mat sub piece)]
+        (s/every2d? #(<= % 1) sum)) false
       :else true)))
 
 (defn write-piece-to-board [board piece x y]
@@ -35,7 +27,7 @@
     (s/add-mat board grown-piece)))
 
 (defn drop-piece
-  "determines the largest 'y' to which the given piece can drop without
+  "determines the highest 'y' to which the given piece can drop without
   interfering with the board"
   [board piece x y]
   (let [bh (s/height board)
