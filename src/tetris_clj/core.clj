@@ -19,7 +19,7 @@
         (keep-indexed
           (fn
             [dy row]
-            (keep-indexed
+            (keep-indexe
               (fn
                 [dx pixel]
                 (if (> (+ pixel (s/xyth board (+ x dx) (+ y dy))) 1) pixel))
@@ -86,7 +86,9 @@
           (= :right getch) (var-set current-x (if (interferes @board @current-piece (inc @current-x) @current-y) @current-x (inc @current-x)))
           (= :left getch) (var-set current-x (if (interferes @board @current-piece (dec @current-x) @current-y) @current-x (dec @current-x)))
           (= \  getch) (var-set current-y (drop-piece @board @current-piece @current-x @current-y))
-          (= :up getch) (var-set current-piece (s/rotate-90-cc @current-piece)))
+          (= :up getch) (let [rotated (s/rotate-90-cc @current-piece)]
+                          (if (not (interferes @board rotated @current-x @current-y))
+                            (var-set current-piece rotated))))
         (if (not (or (= \q getch) (interferes @board @current-piece @current-x @current-y)))
           (recur (inc frame))))))
 
