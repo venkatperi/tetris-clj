@@ -35,7 +35,7 @@
     (first
       (drop-while
         #(interferes board piece x %)
-        (map (partial - bh) (range h bh))))))
+        (map #(- bh %) (range h bh))))))
 
 
 (defn full-row?
