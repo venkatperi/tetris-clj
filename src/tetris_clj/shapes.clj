@@ -11,15 +11,19 @@
 (def pieces [i o l j z s t])
 
 (defn get-random-piece []
+  "gets a piece, in random"
   (->> pieces count rand-int (nth pieces)))
 
 (defn height [mat]
+  "returns the height of a 2d matrix"
   (count mat))
 
 (defn width [mat]
+  "returns the width of a 2d matrix"
   (-> mat first count))
 
 (defn transpose [m]
+  "transpose a 2d matrix"
   (apply mapv vector m))
 
 (defn rotate-90-cc [piece]
@@ -27,10 +31,12 @@
   (-> piece transpose reverse))
 
 (defn xyth
+  "returns the element at (x,y)"
   [matrix x y]
   (-> matrix (nth y) (nth x)))
 
 (defn zero-mat
+  "returns a zero row(w) or matrix(w,h)"
   ([w]
    (->> 0 (repeat w) vec))
   ([w h]
@@ -52,7 +58,13 @@
       (zero-mat bw (- bh (+ y h))))))
 
 (defn add-mat [m1 m2]
+  "adds two 2d matrices"
   (mapv #(mapv + %1 %2) m1 m2))
 
 
+(defn sub-mat
+  "return a sub-matrix of size (w,h) from location (x,y) "
+  [matrix w h x y]
+  (map #(->> % (drop x) (take w)) (->> matrix (drop y) (take h)))
+  )
 

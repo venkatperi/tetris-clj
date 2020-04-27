@@ -28,12 +28,15 @@
       :else true)))
 
 (defn write-piece-to-board [board piece x y]
+  "writes the given piece to the board at location (x,y) and returns the new board"
   (let [bw (s/width board)
         bh (s/height board)
         grown-piece (s/grow-mat piece x y bw bh)]
     (s/add-mat board grown-piece)))
 
 (defn drop-piece
+  "determines the largest 'y' to which the given piece can drop without
+  interfering with the board"
   [board piece x y]
   (let [bh (s/height board)
         h (s/height piece)]
@@ -44,10 +47,12 @@
 
 
 (defn full-row?
+  "true if all squares on the given row are set (> 0)"
   [row]
   (every? #(> % 0) row))
 
 (defn clear-lines
+  "clears full rows from the board and top-pads zero rows to preserve dimensions"
   [board]
   (let [bw (s/width board)
         bh (s/height board)
@@ -59,6 +64,7 @@
 (def board-height 20)
 
 (defn start-game
+  "start the game"
   []
   (t/start)
   (with-local-vars
