@@ -62,7 +62,7 @@
   (mapv #(mapv + %1 %2) m1 m2))
 
 
-(defn sub-mat
+(defn submatrix
   "return a sub-matrix of size (w,h) from location (x,y) "
   [matrix w h x y]
   (map #(->> % (drop x) (take w)) (->> matrix (drop y) (take h)))
