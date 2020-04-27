@@ -19,7 +19,7 @@
         (keep-indexed
           (fn
             [dy row]
-            (keep-indexe
+            (keep-indexed
               (fn
                 [dx pixel]
                 (if (> (+ pixel (s/xyth board (+ x dx) (+ y dy))) 1) pixel))
