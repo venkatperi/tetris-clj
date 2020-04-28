@@ -46,29 +46,27 @@
   "'grow' matrix `piece` to size bw x bh placing it at (x,y) and zeroing out rest"
   [piece x y bw bh]
   (let [w (width piece)
-        h (height piece)]
+        h (height piece)
+        dw (- bw (+ x w))
+        dh (- bh (+ y h))]
     (concat
       (zero-mat bw y)
-      (map
-        (fn [row]
-          (concat
-            (zero-mat x)
-            row
-            (zero-mat (- bw (+ x w))))) piece)
-      (zero-mat bw (- bh (+ y h))))))
+      (map #(concat (zero-mat x) % (zero-mat dw)) piece)
+      (zero-mat bw dh))))
 
-(defn add-mat [m1 m2]
+(defn add-mat
   "adds two 2d matrices"
+  [m1 m2]
   (mapv #(mapv + %1 %2) m1 m2))
 
 
 (defn submatrix
   "return a sub-matrix of size (w,h) from location (x,y) "
   [matrix w h x y]
-  (map #(->> % (drop x) (take w)) (->> matrix (drop y) (take h)))
-  )
+  (map #(->> % (drop x) (take w)) (->> matrix (drop y) (take h))))
 
 (defn every2d?
-  [f matrix]
-  (every? true? (map #(every? f %) matrix)))
+  "Returns true if (pred x) is true for every element in the 2d matrix "
+  [pred matrix]
+  (->> matrix (map #(every? pred %)) (every? true?)))
 

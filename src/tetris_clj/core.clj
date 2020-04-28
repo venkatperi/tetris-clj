@@ -27,7 +27,7 @@
     (s/add-mat board grown-piece)))
 
 (defn drop-piece
-  "determines the highest 'y' to which the given piece can drop without
+  "determines the largest value of 'y' to which the given piece can drop without
   interfering with the board"
   [board piece x y]
   (let [bh (s/height board)
@@ -36,7 +36,6 @@
       (drop-while
         #(interferes board piece x %)
         (map #(- bh %) (range h bh))))))
-
 
 (defn full-row?
   "true if all squares on the given row are set (> 0)"
